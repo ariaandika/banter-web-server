@@ -1,5 +1,3 @@
-import { writable } from "svelte/store"
-
 export const base = "/stacked-layouts";
 
 export const data = [

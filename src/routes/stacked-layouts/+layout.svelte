@@ -13,7 +13,7 @@ import { base } from "./data"
             <div class="mr-8 *:scale-150">{@html Package}</div>
             <a href="{base}">Orders</a>
             <a href="{base}/create">Create</a>
-            <a href="{base}/">Gateout</a>
+            <a href="{base}/gateout">Gateout</a>
             <a href="{base}/">Gatein</a>
             <a href="{base}/">Manifests</a>
         </section>
