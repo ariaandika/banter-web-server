@@ -1,6 +1,6 @@
 <script>
 import { button_ghost, button_primary } from "$/lib/ui/button";
-import { cn } from "$/lib";
+import { cn } from "$/lib/index";
 import { Search } from "../icon";
 import { page } from "$app/stores";
 import { onMount } from "svelte";
