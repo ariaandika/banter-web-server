@@ -14,7 +14,7 @@ import { base } from "./data"
             <a href="{base}">Orders</a>
             <a href="{base}/create">Create</a>
             <a href="{base}/gateout">Gateout</a>
-            <a href="{base}/">Gatein</a>
+            <a href="{base}/gatein">Gatein</a>
             <a href="{base}/manifests">Manifests</a>
         </section>
     </nav>
