@@ -1,12 +1,13 @@
 import { applyAction } from "$app/forms";
 import { page } from "$app/stores";
+import { PUBLIC_API_URL } from "$env/static/public";
 import { Array, Literal, Number as DefNumber, Object, String, Union, Null } from "@sinclair/typebox"
 import { Errors } from "@sinclair/typebox/errors";
 import { Check, Create } from "@sinclair/typebox/value";
 import { get, writable } from "svelte/store"
 
 const BASE = "/sales";
-const URL = "http://localhost:3000/sales/v1/orders";
+const URL = PUBLIC_API_URL + "/sales/v1/orders";
 const CREATE_ORDER_CTX = 'CREATE_ORDER_CTX';
 
 export const CreateOrderStore = () => {

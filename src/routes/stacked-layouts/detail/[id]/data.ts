@@ -1,15 +1,16 @@
 import { page } from "$app/stores";
+import { PUBLIC_API_URL } from "$env/static/public";
 import { Array, Date, Number, Object, String } from "@sinclair/typebox";
 import { redirect, type RequestEvent } from "@sveltejs/kit";
 import { derived } from "svelte/store";
 
-export async function load({ params }: RequestEvent) {
+export async function load({ params, fetch }: RequestEvent) {
     const id = params.id;
     if (!id) {
         redirect(302, "/sales")
     }
 
-    const response = await fetch("http://localhost:3000/sales/v1/orders/" + id,{ mode: "cors", credentials: "include" });
+    const response = await fetch(PUBLIC_API_URL + "/sales/v1/orders/" + id,{ mode: "cors", credentials: "include" });
     const { data } = await response.json() as { data: typeof FindOrderResponse.static };
 
     if (!data) {

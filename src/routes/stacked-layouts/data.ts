@@ -3,11 +3,12 @@ import { loadUser } from "$/lib/user"
 import { error } from "@sveltejs/kit";
 import { derived } from "svelte/store";
 import { page } from "$app/stores";
+import { PUBLIC_API_URL } from "$env/static/public";
 
-const API_URL = "http://localhost:3000/sales/v1/orders";
+const API_URL = PUBLIC_API_URL + "/sales/v1/orders";
 export const base = "/stacked-layouts";
 
-export const load = async () => {
+export const load = async ({ fetch }: { fetch: typeof globalThis.fetch }) => {
     const user = loadUser();
     if (!user) {
         error(401, { message: "Authentication Required" });

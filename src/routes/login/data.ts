@@ -3,8 +3,11 @@ import { Object, String } from "@sinclair/typebox"
 import { get, writable } from "svelte/store";
 import { applyAction } from "$app/forms";
 import { page } from "$app/stores";
+import { PUBLIC_API_URL } from "$env/static/public";
 
-const LOGIN_URL = "http://localhost:3000/auth/v1/login/cookie";
+
+
+const LOGIN_URL = PUBLIC_API_URL + "/auth/v1/login/cookie";
 const USER_CTX = "USER_CTX";
 
 export const load = () => {
