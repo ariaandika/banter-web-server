@@ -59,7 +59,7 @@ onMount(() => {
     <div class="text-center ">
         <h1 class="text-6xl font-bold tracking-tight">BANTER Staff Web App</h1>
         <p class="mt-6 text-gray-600 text-lg">
-            <span>&ThickSpace;</span><span>{@html msg}</span>
+            <span>&ThickSpace;</span><span>{msg}</span>
         </p>
         <div class="my-6 w-full flex gap-4 justify-center">
             <a href={startedHref} class="{button_primary}">
