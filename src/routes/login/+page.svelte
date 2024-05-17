@@ -1,11 +1,24 @@
 <script>
 import Blob from "$/lib/ui/Blob.svelte"
+import { LoginStore } from "./data"
 import { input } from "$/lib/ui/input";
-import { page } from "$app/stores"
 import { onMount } from "svelte";
+import { button_primary } from "$/lib/ui/button";
+import { LoaderCircle } from "../stacked-layouts/icon";
+    import { page } from "$app/stores";
+    import { cn } from "$/lib";
+
 
 /** @type {HTMLInputElement} */
 let inputName;
+
+const data = LoginStore();
+
+/** @param {SubmitEvent} e */
+async function submit(e) {
+    e.preventDefault();
+    await data.submit()
+}
 
 onMount(() => {
     inputName.focus();
@@ -23,7 +36,7 @@ onMount(() => {
 
 <section class="h-full grid place-items-center">
     <Blob/>
-    <form class="w-[380px]" on:submit|preventDefault={()=>{}}>
+    <form class="w-[380px]" on:submit={submit}>
         <h1 class="text-4xl font-bold text-center text-indigo-600">BANTER</h1>
         <h1 class="text-2xl font-bold text-center">Login to your account</h1>
 
@@ -31,27 +44,24 @@ onMount(() => {
 
         <label class="flex flex-col">
             <span aria-errormessage="phone">Phone</span>
-            <input type="text" name="phone" autocomplete="tel" required class="{input}" bind:this={inputName}>
+            <input type="text" name="phone" autocomplete="tel" bind:value={$data.phone} required class="{input}" bind:this={inputName}>
         </label>
 
         <div class="my-4"></div>
 
         <label class="flex flex-col">
             <span>Password</span>
-            <input type="password" name="password" autocomplete="current-password" required class={input}>
+            <input type="password" name="password" autocomplete="current-password" bind:value={$data.password} required class={input}>
         </label>
 
         <div class="my-4"></div>
 
-        <button
-        class="px-3 py-2 w-full rounded-md
-               font-bold text-white text-center text-base
-               bg-indigo-600 hover:bg-indigo-600/90"
-        >Login</button>
-
-        <div class="text-sm text-red-600">{$page.form?.error?.message ?? ""}</div>
+        {#if $page.status == 10}
+        <button disabled class="{cn(button_primary, 'bg-gray-800')} w-full justify-center"><span class="relative animate-spin">{@html LoaderCircle}</span></button>
+        {:else}
+        <button class="{button_primary} w-full justify-center">Login</button>
+        {/if}
     </form>
-
 </section>
 
 
