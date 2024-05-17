@@ -1,4 +1,71 @@
+import { Object, String, Number, Array, Date } from "@sinclair/typebox";
+import { loadUser } from "$/lib/user"
+import { error } from "@sveltejs/kit";
+import { derived } from "svelte/store";
+import { page } from "$app/stores";
+
+const API_URL = "http://localhost:3000/sales/v1/orders";
 export const base = "/stacked-layouts";
+
+export const load = async () => {
+    const user = loadUser();
+    if (!user) {
+        error(401, { message: "Authentication Required" });
+    }
+
+    if (user.role !== "Sales") {
+        error(403, { message: "You are not allowed to access this resource" });
+    }
+
+    const response = await fetch(API_URL,{
+        mode: "cors",
+        credentials: "include",
+    })
+
+    const { data } = await response.json() as { data: typeof OrdersResponse.static };
+    data.forEach(e => e.tracings.created_at = new window.Date(e.tracings.created_at));
+
+    return { [OrdersResponse.$id!]: data };
+}
+
+export const TracingStore = () => {
+    const store = derived(page, e => e.data[OrdersResponse.$id!] as typeof OrdersResponse.static);
+    return store;
+}
+
+
+const Address = Object({
+    detail: String(),
+    kelurahan: String(),
+    kecamatan: String(),
+    kabupaten: String(),
+    provinsi: String(),
+    kodepos: Number({ default: null }),
+})
+
+const Tracings = Object({
+    created_at: Date(),
+    order_id: Number(),
+    status: String(),
+    subject_id: Number(),
+    subject_name: String(),
+    tracing_id: Number()
+},{ $id: "TRACING_CTX" });
+
+const OrdersResponse = Array(Object({
+    tracings: Tracings,
+    destination: Address,
+}), { $id: 'ORDER_RESPONSE_CTX' })
+
+const OrdersViews = Array(Object({
+    order_id: Number(),
+    status: String(),
+    wh_name: String(),
+    sender: String(),
+    receiver: String(),
+    destination: Address,
+    created_at: Date(),
+}))
 
 export const data = [
     {
