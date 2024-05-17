@@ -21,6 +21,19 @@ function resetTimeout() {
     }
 }
 
+/** @param {any} e */
+function onerror(e) {
+    const m = e.message;
+    resetTimeout();
+    idx = 1;
+    msg[1] = m;
+    signal = setTimeout(() => {
+        if (idx == 1) {
+            idx = 0;
+        }
+    }, 6000)
+}
+
 onMount(() => page.subscribe(page => {
     if (page.status >= 200 && page.status < 300 && page.form) {
         resetTimeout();
@@ -35,7 +48,7 @@ onMount(() => page.subscribe(page => {
         resetTimeout();
         idx = 1;
         msg[1] = page.form.message;
-        setTimeout(() => {
+        signal = setTimeout(() => {
             if (idx == 1) {
                 idx = 0;
             }
@@ -46,7 +59,7 @@ onMount(() => page.subscribe(page => {
 
 </script>
 
-
+<svelte:window on:error={onerror}></svelte:window>
 
 <section class="FRAME absolute w-full flex justify-center pointer-events-none">
     {#if idx == 1}
