@@ -5,21 +5,8 @@ import { applyAction } from "$app/forms";
 import { page } from "$app/stores";
 import { PUBLIC_API_URL } from "$env/static/public";
 
-
-
 const LOGIN_URL = PUBLIC_API_URL + "/auth/v1/login/cookie";
 const USER_CTX = "USER_CTX";
-
-export const load = () => {
-    const json = localStorage.getItem(USER_CTX)
-    let data;
-
-    if (json) {
-        data = JSON.parse(json)
-    }
-
-    return { [USER_CTX]: data }
-}
 
 export const LoginStore = () => {
     const store = writable(Create(LoginRequest));
