@@ -3,13 +3,21 @@ import TableStack from "./TableStack.svelte";
 import { Search, Sort, X } from "./icon";
 import { button_ghost } from "$/lib/ui/button"
 
-let search = "";
+let search = '';
+
 /** @type {HTMLInputElement} */
 let input;
 
 </script>
 
-
+<svelte:document on:keydown={e => {
+    if (e.code == 'Escape') {
+        search = "";
+        input.blur()
+        e.preventDefault();
+        return;
+    }
+}}></svelte:document>
 
 
 <section class="flex gap-4 flex-col">
@@ -30,7 +38,7 @@ let input;
     </section>
 
     <section class="w-full bg-white border border-gray-200 rounded-lg overflow-hidden shadow-md">
-        <TableStack/>
+        <TableStack {search}/>
     </section>
 
 </section>

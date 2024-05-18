@@ -1,7 +1,7 @@
 import { Object, String, Number, Array, Date } from "@sinclair/typebox";
 import { loadUser } from "$/lib/user"
 import { error } from "@sveltejs/kit";
-import { derived } from "svelte/store";
+import { derived, get, writable, type Readable, type StoresValues } from "svelte/store";
 import { page } from "$app/stores";
 import { PUBLIC_API_URL } from "$env/static/public";
 
@@ -29,6 +29,7 @@ export const load = async ({ fetch }: { fetch: typeof globalThis.fetch }) => {
     return { [OrdersResponse.$id!]: data };
 }
 
+// NOTE: function context is each page, so no shared store between page, eg: search, out of the box
 export const TracingStore = () => {
     const store = derived(page, e => e.data[OrdersResponse.$id!] as typeof OrdersResponse.static);
     return store;
@@ -58,15 +59,15 @@ const OrdersResponse = Array(Object({
     destination: Address,
 }), { $id: 'ORDER_RESPONSE_CTX' })
 
-const OrdersViews = Array(Object({
-    order_id: Number(),
-    status: String(),
-    wh_name: String(),
-    sender: String(),
-    receiver: String(),
-    destination: Address,
-    created_at: Date(),
-}))
+// const OrdersViews = Array(Object({
+//     order_id: Number(),
+//     status: String(),
+//     wh_name: String(),
+//     sender: String(),
+//     receiver: String(),
+//     destination: Address,
+//     created_at: Date(),
+// }))
 
 export const data = [
     {

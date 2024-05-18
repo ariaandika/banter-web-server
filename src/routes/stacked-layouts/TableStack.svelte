@@ -1,12 +1,15 @@
 <script>
 import { TracingStore, base } from "./data"
 
+export let search = '';
 const tracings = TracingStore();
+
+$: filtered = $tracings.filter(e => e.tracings.order_id.toString().startsWith(search));
 
 </script>
 
 <section class="w-full">
-    {#each $tracings as d}
+    {#each filtered as d}
         <div class="px-6 group hover:bg-gray-600/5">
             <a href="{base}/detail/{d.tracings.order_id}">
                 <div class="py-4 group-last:border-none border-b border-gray-200 flex justify-between">
@@ -21,6 +24,8 @@ const tracings = TracingStore();
                 </div>
             </a>
         </div>
+    {:else}
+        <div class="px-6 py-4 italic text-gray-600">No Order Found</div>
     {/each}
 </section>
 
